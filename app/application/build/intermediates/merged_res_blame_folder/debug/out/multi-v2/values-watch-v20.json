@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.halebop.surfdiary.application-mergeDebugResources-86:/values-watch-v20/values-watch-v20.xml",
+            "map": [
+                {
+                    "source": "/Users/Haley/.gradle/caches/transforms-3/fc7033d5157c5e9ba89c3bbaee6de8a8/transformed/appcompat-1.5.1/res/values-watch-v20/values-watch-v20.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,214,385",
+                        "endLines": "4,7,10",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "209,380,553"
+                    }
+                }
+            ]
+        }
+    ]
+}

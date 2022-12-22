@@ -1,0 +1,3 @@
+[submodule "buoy-kit"]
+	path = buoy-kit
+	url = https://github.com/derekdowling/buoy-kit.git

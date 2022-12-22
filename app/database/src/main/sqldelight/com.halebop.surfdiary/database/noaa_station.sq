@@ -1,0 +1,118 @@
+
+CREATE TABLE noaa_station(
+    id INTEGER PRIMARY KEY,
+    station_short_name TEXT,
+    station_long_name TEXT,
+    active INTEGER AS Boolean NOT NULL,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL
+);
+
+getStation:
+SELECT * FROM noaa_station
+WHERE id = :id;
+
+getAllStations:
+SELECT * FROM noaa_station;
+
+insertOrReplaceStation:
+INSERT OR REPLACE INTO noaa_station (
+    id,
+    station_short_name,
+    station_long_name,
+    active,
+    latitude,
+    longitude
+) VALUES (
+    :id,
+    :shortName,
+    :longName,
+    :active,
+    :latitude,
+    :longitude
+);
+
+deleteStation:
+DELETE FROM noaa_station
+WHERE id = :id;
+
+deleteAllStations:
+DELETE FROM noaa_station;
+
+CREATE TABLE noaa_report (
+    id INTEGER PRIMARY KEY,
+    report_name TEXT NOT NULL,
+    actual_name TEXT NOT NULL,
+    interval INTEGER NOT NULL,
+    units TEXT NOT NULL,
+    group_name TEXT NOT NULL,
+    elevation TEXT NOT NULL,
+    station_id INTEGER NOT NULL,
+    FOREIGN KEY(station_id) REFERENCES noaa_station(id) ON DELETE CASCADE
+);
+
+getReportsForStation:
+SELECT * FROM noaa_report
+WHERE station_id = :stationId;
+
+insertOrUpdateReports:
+INSERT OR REPLACE INTO noaa_report(
+    id,
+    report_name,
+    actual_name,
+    interval,
+    units,
+    group_name,
+    elevation,
+    station_id
+) VALUES(
+    :id,
+    :reportName,
+    :actualName,
+    :interval,
+    :units,
+    :groupName,
+    :elevation,
+    :stationId
+);
+
+deleteReport:
+DELETE FROM noaa_report
+WHERE id = :id;
+
+deleteAllReports:
+DELETE FROM noaa_report;
+
+CREATE TABLE report_measurements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time TEXT NOT NULL,
+    value REAL NOT NULL,
+    qa TEXT,
+    report_id INTEGER NOT NULL,
+    FOREIGN KEY(report_id) REFERENCES noaa_report(id) ON DELETE CASCADE
+);
+
+getMeasurementForReport:
+SELECT * FROM report_measurements
+WHERE report_id = :reportId;
+
+insertOrUpdateMeasurement:
+INSERT OR REPLACE INTO report_measurements(
+    time,
+    value,
+    qa,
+    report_id
+) VALUES(
+    :time,
+    :value,
+    :qa,
+    :reportId
+);
+
+deleteMeasurement:
+DELETE FROM report_measurements
+WHERE id = :id;
+
+deleteAllMeasurements:
+DELETE FROM report_measurements;
+

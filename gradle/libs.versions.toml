@@ -1,0 +1,53 @@
+#[versions]
+#hilt-android = "2.44"
+#store = "4.0.5"
+#retrofit = "2.9.0"
+#okhttp = "3.14.9"
+#ktx = "1.9.0"
+#androidx = "1.5.1"
+#material = "1.7.0"
+#constraint = "2.1.4"
+#appcompat = "0.25.1"
+#serialization-json = "1.4.1"
+#coroutines-core = "1.6.1"
+#coroutines-android = "1.6.4"
+#viemodel = "1.0.0-alpha03"
+#hilt-compiler = "1.0.0"
+#compose = "1.1.0-alpha01"
+#
+#[libraries]
+#hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
+#hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-android" }
+#store = { module = "com.dropbox.mobile.store:store4", version.ref = "store" }
+#retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+#retrofit-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+#okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+#ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
+#androidx = { module = "androidx.appcompat:appcompat", version.ref = "androidx" }
+#material = { module = "com.google.android.material:material", version.ref = "material" }
+#constraint = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraint" }
+#appcompat = { module = "com.google.accompanist:accompanist-appcompat-theme", version.ref = "appcompat" }
+#serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
+#coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines-core" }
+#coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines-android" }
+#viewmodel = { module = "androidx.hilt:hilt-lifecycle-viewmodel", version.ref = "viewmodel" }
+#hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
+#compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "compose" }
+#
+#// SQL Delight
+#implementation "com.squareup.sqldelight:android-driver:1.5.3"
+#implementation "com.squareup.sqldelight:coroutines-extensions-jvm:1.5.2"
+#testImplementation 'junit:junit:4.+'
+#androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+#androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+#
+#//Dagger - Hilt
+#implementation "com.google.dagger:hilt-android:2.44"
+#kapt "com.google.dagger:hilt-android-compiler:2.37"
+#implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+#kapt "androidx.hilt:hilt-compiler:1.0.0"
+#implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
+#
+#// SQL Delight
+#implementation "com.squareup.sqldelight:android-driver:1.5.3"
+#implementation "com.squareup.sqldelight:coroutines-extensions-jvm:1.5.2"
