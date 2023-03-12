@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.halebop.network.NetworkServicesFactory
+import com.halebop.surfdiary.*
 import javax.inject.Singleton
 
 @Module
@@ -32,6 +33,13 @@ class AppModule {
     ): NOAADataSource {
         return NOAADataSourceImpl(DiaryDatabase.invoke(sqlDriver).noaa_stationQueries)
     }
+
+    @Provides
+    @Singleton
+    fun provideLocationDatasource(
+        sqlDriver: AndroidSqliteDriver
+    ): LocationDatasource {
+        return LocationDatasourceImpl(DiaryDatabase.invoke(sqlDriver).locationQueries)
     }
 
     @Provides
