@@ -4,4 +4,16 @@
     app:startDestination="@id/location_fragment"
     android:id="@+id/nav_graph">
     <fragment
+        android:id="@+id/location_fragment"
+        android:label="@string/title_locations"
+        android:name="com.halebop.surfdiary.locations.LocationsFragment">
+        <action
+            android:id="@+id/action_location_fragment_to_add_location_fragment"
+            app:destination="@+id/add_location_fragment">
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/add_location_fragment"
+        android:name="com.halebop.surfdiary.locations.AddLocationFragment"/>
+
 </navigation>
