@@ -4,6 +4,12 @@ data class LatLng(val lat: Double, val lng: Double) {
     override fun toString() = "($lat, $lng)"
 }
 
+data class Location(
+    val id: Long,
+    val name: String,
+    val latLng: LatLng
+)
+
 data class Station(
     val id: Long,
     val stationShortName: String?,
@@ -27,7 +33,6 @@ data class Report(
 )
 
 data class Measurement(
-    val id: Long,
     val time: String,
     val value: Double,
     val QA: String?,
