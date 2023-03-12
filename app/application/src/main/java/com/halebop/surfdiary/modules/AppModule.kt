@@ -2,9 +2,6 @@ package com.halebop.surfdiary.modules
 
 import android.app.Application
 import com.dropbox.android.external.store4.Store
-import com.halebop.surfdiary.ConditionsDatabase
-import com.halebop.surfdiary.NOAADataSource
-import com.halebop.surfdiary.NOAADataSourceImpl
 import com.halebop.web_types.Station
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Module
@@ -22,9 +19,9 @@ class AppModule {
     @Singleton
     fun provideSqlDriver(app: Application): AndroidSqliteDriver {
         return AndroidSqliteDriver(
-            schema = ConditionsDatabase.Schema,
+            schema = DiaryDatabase.Schema,
             context = app,
-            name = "conditions.db"
+            name = "diary.db"
         )
     }
 
@@ -33,7 +30,8 @@ class AppModule {
     fun provideNOAADataSource(
         sqlDriver: AndroidSqliteDriver
     ): NOAADataSource {
-        return NOAADataSourceImpl(ConditionsDatabase.invoke(sqlDriver))
+        return NOAADataSourceImpl(DiaryDatabase.invoke(sqlDriver).noaa_stationQueries)
+    }
     }
 
     @Provides
