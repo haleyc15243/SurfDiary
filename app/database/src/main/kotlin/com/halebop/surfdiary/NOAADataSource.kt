@@ -1,5 +1,6 @@
 package com.halebop.surfdiary
 
+import com.halebop.surfdiary.database.Noaa_stationQueries
 import com.halebop.web_types.Measurement
 import com.halebop.web_types.Report
 import com.halebop.web_types.Station
@@ -18,23 +19,20 @@ interface NOAADataSource {
 }
 
 class NOAADataSourceImpl(
-    db: ConditionsDatabase
+    private val stationQueries: Noaa_stationQueries
 ): NOAADataSource {
-
-    private val stationsDatabase = db.noaa_stationQueries
 
     // TODO replace dispatchers
     override fun getStations(): Flow<List<Station>?> {
-        return stationsDatabase.getAllStations().asFlow().map { query ->
+        return stationQueries.getAllStations().asFlow().map { query ->
             query.executeAsList().let { stationList ->
                 stationList.map { station ->
-                    val reports = stationsDatabase.getReportsForStation(station.id).executeAsList()
+                    val reports = stationQueries.getReportsForStation(station.id).executeAsList()
                         .map { report ->
                             val measurements =
-                                stationsDatabase.getMeasurementForReport(report.id).executeAsList()
+                                stationQueries.getMeasurementForReport(report.id).executeAsList()
                                     .map {
                                         Measurement(
-                                            id = it.id,
                                             time = it.time,
                                             value = it.value_,
                                             QA = it.qa,
@@ -76,7 +74,7 @@ class NOAADataSourceImpl(
     override suspend fun insertStation(station: Station) {
         return withContext(Dispatchers.IO) {
             val reports = station.variable
-            stationsDatabase.insertOrReplaceStation(
+            stationQueries.insertOrReplaceStation(
                 station.id,
                 station.stationShortName,
                 station.stationLongName,
@@ -85,7 +83,7 @@ class NOAADataSourceImpl(
                 station.longitude
             )
             reports?.forEach { report ->
-                stationsDatabase.insertOrUpdateReports(
+                stationQueries.insertOrUpdateReports(
                     report.id,
                     report.reportName,
                     report.actualName,
@@ -96,7 +94,7 @@ class NOAADataSourceImpl(
                     station.id
                 )
                 report.measurements.forEach { measurement ->
-                    stationsDatabase.insertOrUpdateMeasurement(
+                    stationQueries.insertOrUpdateMeasurement(
                         measurement.time,
                         measurement.value,
                         measurement.QA,
@@ -109,13 +107,13 @@ class NOAADataSourceImpl(
 
     override suspend fun deleteStation(id: Long) {
         withContext(Dispatchers.IO) {
-            stationsDatabase.deleteStation(id)
+            stationQueries.deleteStation(id)
         }
     }
 
     override suspend fun deleteAllStations() {
         withContext(Dispatchers.IO) {
-            stationsDatabase.deleteAllStations()
+            stationQueries.deleteAllStations()
         }
     }
 
