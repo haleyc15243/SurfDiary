@@ -45,14 +45,14 @@ dependencies {
     implementation 'com.squareup.sqldelight:runtime:1.5.4'
     implementation 'com.squareup.sqldelight:android-driver:1.5.4'
     // SQL Delight
-    implementation "com.squareup.sqldelight:android-driver:1.5.4"
-    implementation "com.squareup.sqldelight:coroutines-extensions-jvm:1.5.2"
+    implementation 'com.squareup.sqldelight:android-driver:1.5.4'
+    implementation 'com.squareup.sqldelight:coroutines-extensions-jvm:1.5.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 }
 
 sqldelight {
-    ConditionsDatabase {
+    DiaryDatabase {
         packageName = 'com.halebop.surfdiary'
     }
 }
