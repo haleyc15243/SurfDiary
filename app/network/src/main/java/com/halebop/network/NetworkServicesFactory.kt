@@ -2,10 +2,11 @@ package com.halebop.network
 
 import com.dropbox.android.external.store4.*
 import com.google.gson.Gson
-import com.halebop.network.noaaservice.HttpClientResponse
-import com.halebop.surfdiary.NOAADataSource
+import com.halebop.network.noaaservice.*
 import com.halebop.network.noaaservice.NOAAService
+import com.halebop.surfdiary.NOAADataSource
 import com.halebop.network.noaaservice.NOAAService.Factory.Companion.TESTING_KEY
+import com.halebop.network.noaaservice.NOAAStationResponse
 import com.halebop.network.noaaservice.NOAAStationsResponse
 import com.halebop.web_types.Measurement
 import com.halebop.web_types.Report
@@ -44,8 +45,7 @@ class NetworkServicesFactory(
 
     private fun NOAAStationsResponse.toStationsList() =
             stations.map {
-                val stationId = randId()
-                val reportId = randId()
+                val stationId = it.stationId()
                 Station(
                     id = stationId,
                     stationShortName = it.stationShortName,
@@ -54,6 +54,7 @@ class NetworkServicesFactory(
                     latitude = it.latitude,
                     longitude = it.longitude,
                     variable = it.variable?.map { report ->
+                        val reportId = report.reportId()
                         Report(
                             id = reportId,
                             reportName = report.reportName,
@@ -65,7 +66,6 @@ class NetworkServicesFactory(
                             stationId = stationId,
                             measurements = report.measurements.map { measurement ->
                                 Measurement(
-                                    id = randId(),
                                     time = measurement.time,
                                     value = measurement.value,
                                     QA = measurement.qa,
@@ -77,5 +77,6 @@ class NetworkServicesFactory(
                 )
             }
 
-    private fun randId() = (0L..Long.MAX_VALUE).random()
+    private fun NOAAStationResponse.stationId(): Long { return (stationShortName + stationLongName).hashCode().toLong() }
+    private fun NOAAReportResponse.reportId(): Long { return (reportName + actualName).hashCode().toLong() }
 }
