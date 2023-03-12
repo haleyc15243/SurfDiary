@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Surf Diary</string>
+    <string name="add_location">Add Location</string>
+    <string name="button_title_save">Save</string>
+    <string name="label_location_name">Location Name</string>
+    <string name="button_title_cancel">Cancel</string>
+    <string name="title_locations">Locations</string>
+    <string name="button_title_delete">Delete</string>
 </resources>
