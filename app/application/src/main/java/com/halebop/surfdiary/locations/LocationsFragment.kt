@@ -1,22 +1,16 @@
 package com.halebop.surfdiary.locations
 
-import SurfDiaryTheme
 import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material3.Card
-import androidx.compose.material3.Surface
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import com.halebop.surfdiary.application.R
 import androidx.compose.runtime.State
@@ -35,6 +29,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.fragment.findNavController
 import com.halebop.surfdiary.LocationDatasource
+import com.halebop.surfdiary.theme.SurfDiaryTheme
 import com.halebop.surfdiary.ui.AppCardListItem
 import com.halebop.surfdiary.ui.CircularBackgroundIcon
 import com.halebop.web_types.Location
@@ -242,7 +237,7 @@ private fun LocationItem(
                 iconRes = android.R.drawable.ic_menu_compass
             )
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text(location.name, style = MaterialTheme.typography.h6)
+                Text(location.name, style = MaterialTheme.typography.titleLarge)
                 distance?.let { Text(it) }
             }
         }

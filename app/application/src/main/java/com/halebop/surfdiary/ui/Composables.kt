@@ -10,8 +10,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material3.Card
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -60,6 +59,7 @@ fun SaveCancelDialog(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTextEntry(
     currentText: String,
@@ -86,7 +86,7 @@ fun AppTextEntry(
         trailingIcon = {
             Box(modifier = Modifier
                 .wrapContentSize()
-                .background(MaterialTheme.colors.primary)
+                .background(MaterialTheme.colorScheme.primary)
                 .clickable { onValueChange("") }
             ) {
                 Icon(
@@ -104,7 +104,7 @@ fun AppTextEntry(
         interactionSource = interactionSource,
         shape = RoundedCornerShape(9.dp),
         colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colors.onSurface,
+            textColor = MaterialTheme.colorScheme.onSurface,
         )
     )
 }
@@ -131,7 +131,7 @@ fun AppCardListItem(
 @Composable
 fun CircularBackgroundIcon(
     @DrawableRes iconRes: Int,
-    backgroundColor: Color = MaterialTheme.colors.primary
+    backgroundColor: Color = MaterialTheme.colorScheme.primary
 ) {
     Box(modifier = Modifier
         .size(40.dp)
