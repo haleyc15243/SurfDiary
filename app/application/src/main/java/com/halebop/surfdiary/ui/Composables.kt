@@ -91,7 +91,7 @@ fun AppTextEntry(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_menu_close_clear_cancel),
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.description_clear),
                 )
             }
         },

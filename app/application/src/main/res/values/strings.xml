@@ -6,4 +6,6 @@
     <string name="button_title_cancel">Cancel</string>
     <string name="title_locations">Locations</string>
     <string name="button_title_delete">Delete</string>
+    <string name="description_clear">Clear</string>
+
 </resources>
