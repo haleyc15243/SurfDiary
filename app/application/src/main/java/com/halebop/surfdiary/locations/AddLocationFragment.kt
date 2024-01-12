@@ -1,26 +1,20 @@
 package com.halebop.surfdiary.locations
 
-import SurfDiaryTheme
-import android.os.Bundle
-import android.view.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.core.view.MenuProvider
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -31,96 +25,23 @@ import com.halebop.surfdiary.LocationDatasource
 import com.halebop.surfdiary.application.R
 import com.halebop.surfdiary.ui.AppTextEntry
 import com.halebop.surfdiary.ui.SaveCancelDialog
-import dagger.hilt.android.AndroidEntryPoint
+import com.halebop.surfdiary.ui.SurfDiaryAppState
+import com.halebop.surfdiary.ui.SurfDiaryScaffold
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
-
-@AndroidEntryPoint
-class AddLocationFragment: Fragment() {
-
-    @Inject
-    lateinit var database: LocationDatasource
-
-    private val viewModel: AddLocationViewModel by viewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                SurfDiaryTheme {
-                    val stateHolder = rememberAddLocationState(
-                        viewModel = viewModel,
-                        fragmentEventHandler = { event ->
-                            when (event) {
-                                is AddLocationFragmentFragmentUiEvent.SaveLocation -> {
-                                    database.insertLocation(
-                                        event.name,
-                                        event.location.latLng.let { com.halebop.web_types.LatLng(it.latitude, it.longitude) }
-                                    )
-                                    findNavController().popBackStack()
-                                }
-                            }
-                        },
-                        viewModelEventHandler = { event ->
-                            viewModel.onUiEvent(event)
-                        }
-                    )
-                    AddLocationFragmentScreen(
-                        stateHolder
-                    )
-                }
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        requireActivity().addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.menu_save, menu)
-                }
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return when (menuItem.itemId) {
-                        R.id.menu_item_save -> {
-                            viewModel.onUiEvent(AddLocationFragmentViewModelUiEvent.SavePressed)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            },
-            viewLifecycleOwner,
-            Lifecycle.State.RESUMED
-        )
-    }
-
-    @OptIn(ExperimentalLifecycleComposeApi::class)
-    @Composable
-    private fun rememberAddLocationState(
-        viewModel: AddLocationViewModel,
-        fragmentEventHandler: (AddLocationFragmentFragmentUiEvent) -> Unit,
-        viewModelEventHandler: (AddLocationFragmentViewModelUiEvent) -> Unit
-    ) = AddLocationFragmentStateHolder(
-        viewModel.uiStateFlow.collectAsStateWithLifecycle(initialValue = AddLocationViewModel.AddLocationFragmentUiState.Initial, lifecycle),
-        viewModelEventHandler, fragmentEventHandler
-    )
-}
-
 interface AddLocationFragmentUiEvent
 
 sealed class AddLocationFragmentFragmentUiEvent: AddLocationFragmentUiEvent {
-    data class SaveLocation(val location: AddLocationViewModel.SelectedLocation, val name: String?): AddLocationFragmentFragmentUiEvent()
+    data object NavigateBack : AddLocationFragmentFragmentUiEvent()
 }
 
 sealed class AddLocationFragmentViewModelUiEvent: AddLocationFragmentUiEvent {
     data class SetSelectedLocation(val location: AddLocationViewModel.SelectedLocation): AddLocationFragmentViewModelUiEvent()
-    object SavePressed: AddLocationFragmentViewModelUiEvent()
-    object CancelSavePressed: AddLocationFragmentViewModelUiEvent()
+    data class SaveConfirmed(val location: AddLocationViewModel.SelectedLocation, val name: String?): AddLocationFragmentViewModelUiEvent()
+    data object SavePressed: AddLocationFragmentViewModelUiEvent()
+    data object CancelSavePressed: AddLocationFragmentViewModelUiEvent()
 }
 
 data class AddLocationFragmentStateHolder(
@@ -130,22 +51,68 @@ data class AddLocationFragmentStateHolder(
 )
 
 @Composable
-private fun AddLocationFragmentScreen(
-    stateHolder: AddLocationFragmentStateHolder
-) {
-    AddLocationFragmentContent(
-        state = stateHolder.state.value,
-        onUiEvent = { event ->
+private fun rememberAddLocationState(
+    viewModel: AddLocationViewModel,
+    lifecycle: Lifecycle,
+    fragmentEventHandler: (AddLocationFragmentFragmentUiEvent) -> Unit,
+    viewModelEventHandler: (AddLocationFragmentViewModelUiEvent) -> Unit
+) = AddLocationFragmentStateHolder(
+    viewModel.uiStateFlow().collectAsStateWithLifecycle(initialValue = AddLocationViewModel.AddLocationFragmentUiState.Initial, lifecycle),
+    viewModelEventHandler, fragmentEventHandler
+)
+
+@Composable
+fun AddLocationScreen(appState: SurfDiaryAppState) {
+    val viewModel: AddLocationViewModel = hiltViewModel()
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val stateHolder = rememberAddLocationState(
+        viewModel = viewModel,
+        lifecycle = lifecycle,
+        fragmentEventHandler = { event ->
             when (event) {
-                is AddLocationFragmentViewModelUiEvent -> {
-                    stateHolder.viewModelEventHandler.invoke(event)
-                }
-                is AddLocationFragmentFragmentUiEvent -> {
-                    stateHolder.fragmentEventHandler.invoke(event)
+                AddLocationFragmentFragmentUiEvent.NavigateBack -> {
+                    appState.navigateBack()
                 }
             }
+        },
+        viewModelEventHandler = { event ->
+            viewModel.onUiEvent(event)
         }
     )
+    AddLocationScreen(
+        appState = appState,
+        state = stateHolder.state.value
+    ) { event ->
+        when (event) {
+            is AddLocationFragmentViewModelUiEvent -> {
+                stateHolder.viewModelEventHandler.invoke(event)
+            }
+            is AddLocationFragmentFragmentUiEvent -> {
+                stateHolder.fragmentEventHandler.invoke(event)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AddLocationScreen(
+    appState: SurfDiaryAppState,
+    state: AddLocationViewModel.AddLocationFragmentUiState,
+    onUiEvent: (AddLocationFragmentUiEvent) -> Unit
+) {
+    SurfDiaryScaffold(
+        appState = appState,
+        topAppBarActions = {
+            TextButton(onClick = { onUiEvent(AddLocationFragmentViewModelUiEvent.SavePressed) }) {
+                Text(text = stringResource(id = R.string.button_title_save))
+            }
+        }
+    ) {
+        AddLocationFragmentContent(
+            state = state,
+            onUiEvent = onUiEvent
+        )
+    }
 }
 
 @Composable
@@ -160,7 +127,8 @@ private fun AddLocationFragmentContent(
                 SaveLocationDialog(
                     suggestedName = state.selectedLocation?.latLng?.toString(),
                     saveLocation = {
-                        onUiEvent.invoke(AddLocationFragmentFragmentUiEvent.SaveLocation(state.selectedLocation!!, it))
+                        onUiEvent.invoke(AddLocationFragmentViewModelUiEvent.SaveConfirmed(state.selectedLocation!!, it))
+                        onUiEvent.invoke(AddLocationFragmentFragmentUiEvent.NavigateBack)
                     },
                     onDismissRequest = { onUiEvent(AddLocationFragmentViewModelUiEvent.CancelSavePressed) }
                 )
@@ -229,18 +197,28 @@ fun SaveLocationDialog(
 
 @HiltViewModel
 class AddLocationViewModel @Inject constructor(
+    private val database: LocationDatasource
 ): ViewModel() {
     data class SelectedLocation(val latLng: LatLng)
     sealed class AddLocationFragmentUiState {
-        object Initial: AddLocationFragmentUiState()
+        data object Initial: AddLocationFragmentUiState()
         data class UiState(
             val selectedLocation: SelectedLocation?,
             val shouldShowSaveDialog: Boolean
         ): AddLocationFragmentUiState()
     }
 
+    private val shouldShowSaveDialogStateFlow = MutableStateFlow(false)
+    private val selectedLocation = MutableStateFlow<SelectedLocation?>(null)
+
     fun onUiEvent(event: AddLocationFragmentViewModelUiEvent) {
         when (event) {
+            is AddLocationFragmentViewModelUiEvent.SaveConfirmed -> {
+                database.insertLocation(
+                    event.name,
+                    event.location.latLng.let { com.halebop.web_types.LatLng(it.latitude, it.longitude) }
+                )
+            }
             AddLocationFragmentViewModelUiEvent.SavePressed -> {
                 shouldShowSaveDialogStateFlow.value = true
             }
@@ -253,9 +231,7 @@ class AddLocationViewModel @Inject constructor(
         }
     }
 
-    private val shouldShowSaveDialogStateFlow = MutableStateFlow(false)
-    private val selectedLocation = MutableStateFlow<SelectedLocation?>(null)
-    val uiStateFlow = combine(selectedLocation, shouldShowSaveDialogStateFlow) { selectedLocation, shouldShowSaveDialog ->
+    fun uiStateFlow() = combine(selectedLocation, shouldShowSaveDialogStateFlow) { selectedLocation, shouldShowSaveDialog ->
         AddLocationFragmentUiState.UiState(selectedLocation, shouldShowSaveDialog)
     }
 }
