@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +22,7 @@ import androidx.lifecycle.asLiveData
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
-import com.halebop.surfdiary.theme.SurfDiaryTheme
+import com.halebop.surfdiary.ui.theme.SurfDiaryTheme
 import com.halebop.web_types.LatLng
 import com.halebop.web_types.Station
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +33,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class WelcomeFragment: Fragment() {
 
-    val viewModel: WelcomeFragmentViewModel by viewModels()
+    private val viewModel: WelcomeFragmentViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,25 +55,26 @@ private fun NOAAStationsContent(
     state: State<List<Station>?>
 ) {
     val data = state.value
-    if (data != null && data.isNotEmpty()) {
-        var dropDownShownState = rememberSaveable { mutableStateOf(false) }
+    if (!data.isNullOrEmpty()) {
+        var dropDownShownState by rememberSaveable { mutableStateOf(false) }
         val stationNameList = data.mapNotNull { it.stationLongName ?: it.stationShortName }.sorted()
-        var selectedStationId = rememberSaveable { mutableStateOf(0) }
-        Column(modifier = Modifier.fillMaxSize()) {
-            Dropdown(stationNameList[selectedStationId.value]) { dropDownShownState.value = true }
-            DropdownMenu(
-                expanded = dropDownShownState.value,
-                onDismissRequest = { dropDownShownState.value = false })
-            {
-                stationNameList.minusElement(stationNameList[selectedStationId.value])
-                    .forEachIndexed { index, name ->
-                        DropdownMenuItem(
-                            onClick = { selectedStationId.value = index },
-                            text = { Text(name) }
-                        )
-                    }
+        var selectedStationId by rememberSaveable { mutableStateOf(0) }
+        Surface {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Dropdown(stationNameList[selectedStationId]) { dropDownShownState = true }
+                DropdownMenu(
+                    expanded = dropDownShownState,
+                    onDismissRequest = { dropDownShownState = false })
+                {
+                    stationNameList.minusElement(stationNameList[selectedStationId])
+                        .forEachIndexed { index, name ->
+                            DropdownMenuItem(onClick = { selectedStationId = index }) {
+                                Text(name)
+                            }
+                        }
+                }
+                NOAAStationInfo(station = data[selectedStationId])
             }
-            NOAAStationInfo(station = data[selectedStationId.value])
         }
     }
 }
@@ -92,7 +91,7 @@ private fun Dropdown(
             .padding(bottom = 8.dp)
             .clickable { onClick() }
     ) {
-        Text(selectedText, style = MaterialTheme.typography.headlineSmall)
+        Text(selectedText, style = MaterialTheme.typography.h5)
         Icon(painter = painterResource(android.R.drawable.arrow_down_float), contentDescription = null)
     }
 }
@@ -115,7 +114,7 @@ fun LabeledValue(
     value: String
 ) {
     Row(modifier = Modifier.fillMaxWidth()) {
-        Text("$label:", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(0.5f))
+        Text("$label:", style = MaterialTheme.typography.h6, modifier = Modifier.weight(0.5f))
         Text(value, modifier = Modifier.weight(0.5f))
     }
 }
