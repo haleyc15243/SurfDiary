@@ -1,4 +1,4 @@
-package com.halebop.surfdiary
+package com.halebop.surfdiary.ui
 
 import android.content.Context
 import androidx.compose.runtime.Composable
