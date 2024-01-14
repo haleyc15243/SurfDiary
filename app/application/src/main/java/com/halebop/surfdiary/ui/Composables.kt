@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -137,15 +138,18 @@ fun AppCardListItem(
 
 @Composable
 fun CircularBackgroundIcon(
-    @DrawableRes iconRes: Int,
+    icon: ImageVector,
     backgroundColor: Color = MaterialTheme.colorScheme.primary
 ) {
-    Box(modifier = Modifier
-        .size(40.dp)
-        .clip(CircleShape)
-        .background(backgroundColor)) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(backgroundColor)
+    ) {
         Icon(
-            painter = painterResource(id = iconRes),
+            imageVector = icon,
+            tint = MaterialTheme.colorScheme.onPrimary,
             contentDescription = "Diary Entry",
             modifier = Modifier
                 .fillMaxSize()
