@@ -12,7 +12,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class SurfDiaryApp: Application() {
+class App: Application() {
 
     @Inject
     lateinit var networkFlipperPlugin: NetworkFlipperPlugin
