@@ -1,6 +1,5 @@
 package com.halebop.surfdiary.ui
 
-import android.R
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,7 +9,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Clear
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -59,7 +67,6 @@ fun SaveCancelDialog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTextEntry(
     currentText: String,
@@ -84,14 +91,14 @@ fun AppTextEntry(
         label = label,
         placeholder = placeholder,
         trailingIcon = {
-            Box(modifier = Modifier
-                .wrapContentSize()
-                .background(MaterialTheme.colorScheme.primary)
-                .clickable { onValueChange("") }
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .clickable { onValueChange("") }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_menu_close_clear_cancel),
-                    contentDescription = stringResource(R.string.description_clear),
+                    imageVector = Icons.Outlined.Clear,
+                    contentDescription = "Clear Text"
                 )
             }
         },
@@ -103,8 +110,8 @@ fun AppTextEntry(
         maxLines = maxLines,
         interactionSource = interactionSource,
         shape = RoundedCornerShape(9.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colorScheme.onSurface,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
         )
     )
 }
