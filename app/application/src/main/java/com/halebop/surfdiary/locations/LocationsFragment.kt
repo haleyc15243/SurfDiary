@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -263,7 +264,7 @@ private fun LocationItem(
                 Checkbox(checked = checked, onCheckedChange = setChecked)
             }
             CircularBackgroundIcon(
-                iconRes = android.R.drawable.ic_menu_compass
+                icon = Icons.Filled.LocationOn
             )
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(location.name, style = MaterialTheme.typography.h6)

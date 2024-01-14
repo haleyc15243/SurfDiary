@@ -1,14 +1,11 @@
 package com.halebop.surfdiary
 
-import SurfDiaryTheme
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -25,6 +22,7 @@ import androidx.lifecycle.asLiveData
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
+import com.halebop.surfdiary.ui.theme.SurfDiaryTheme
 import com.halebop.web_types.LatLng
 import com.halebop.web_types.Station
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +33,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class WelcomeFragment: Fragment() {
 
-    val viewModel: WelcomeFragmentViewModel by viewModels()
+    private val viewModel: WelcomeFragmentViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +55,7 @@ private fun NOAAStationsContent(
     state: State<List<Station>?>
 ) {
     val data = state.value
-    if (data != null && data.isNotEmpty()) {
+    if (!data.isNullOrEmpty()) {
         var dropDownShownState by rememberSaveable { mutableStateOf(false) }
         val stationNameList = data.mapNotNull { it.stationLongName ?: it.stationShortName }.sorted()
         var selectedStationId by rememberSaveable { mutableStateOf(0) }

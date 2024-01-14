@@ -5,49 +5,28 @@
                            
 # files for the dex VM
 *.dex
-*.so
-*.o*
-                            
+
 # Java class files
 *.class
-                            
+
 # generated files
 bin/
 gen/
-obj/
-Staging/
-.metadata/
-                            
+
 # Local configuration file (sdk path, etc)
 local.properties
-.settings/
-*.iml
 
-# VisualStudio
-Debug/
-Release/
-*.suo
-*.sdf
-*.pdb
-*.ilk
-*.vcxproj.user
-Build/Support/packages/
-*.opensdf
-                        
 # Windows thumbnail db
 Thumbs.db
-                
+
 # OSX files
 .DS_Store
-                            
+
 # Android Studio
 *.iml
-.idea
+**/.idea/
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
-.gradle/
 .gradle
-/local.properties
-**/.idea/workspace.xml
 build/
 .navigation
 captures/
