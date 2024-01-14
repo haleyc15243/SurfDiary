@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:exported="true"
         android:theme="@style/Theme.SurfDiary">
-        <activity android:name="com.halebop.surfdiary.activity.MainActivity"
+        <activity
+            android:name="com.halebop.surfdiary.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
