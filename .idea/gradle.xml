@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/app/network2" />
             <option value="$PROJECT_DIR$/app/web-types" />
             <option value="$PROJECT_DIR$/database" />
+            <option value="$PROJECT_DIR$/location_services" />
           </set>
         </option>
       </GradleProjectSettings>

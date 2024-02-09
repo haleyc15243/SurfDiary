@@ -1,3 +1,6 @@
 [submodule "buoy-kit"]
 	path = buoy-kit
 	url = https://github.com/derekdowling/buoy-kit.git
+[submodule "submodules/location_services"]
+	path = submodules/location_services
+	url = git@github.com:haleyc15243/location_services.git
