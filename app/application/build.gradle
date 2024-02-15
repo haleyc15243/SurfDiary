@@ -96,6 +96,7 @@ dependencies {
     implementation project(path: ':app:database')
     implementation project(path: ':app:network')
     implementation project(path: ':app:web-types')
+    implementation project(path: ':submodules:location_services')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.dropbox.mobile.store:store4:${store_version}"
