@@ -25,8 +25,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Clear
-import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -85,6 +85,58 @@ fun SaveCancelDialog(
                         Text(stringResource(com.halebop.surfdiary.application.R.string.button_title_save))
                     }
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ExpandableCard(
+    modifier: Modifier = Modifier,
+    title: String,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val rotationState by animateFloatAsState(
+        targetValue = if (expanded) 90f else 0f,
+        label = "rotationState"
+    )
+    Card(
+        onClick = { expanded = !expanded },
+        modifier = modifier.animateContentSize(
+            animationSpec = tween(
+                durationMillis = 300,
+                easing = LinearOutSlowInEasing
+            )
+        )
+    ) {
+        Column(modifier = Modifier.padding(14.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 6.dp)
+            ) {
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                IconButton(
+                    onClick = { expanded = !expanded },
+                    modifier = Modifier.rotate(rotationState)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                        contentDescription = if (expanded) "Close" else "Expand"
+                    )
+                }
+            }
+            if (expanded) {
+                content()
             }
         }
     }
