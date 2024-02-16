@@ -1,6 +1,6 @@
 package com.halebop.surfdiary.locations
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,6 +31,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
+
 interface AddLocationFragmentUiEvent
 
 sealed class AddLocationFragmentFragmentUiEvent: AddLocationFragmentUiEvent {

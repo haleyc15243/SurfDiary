@@ -1,6 +1,5 @@
 package com.halebop.surfdiary
 
-import android.content.Context
 import com.halebop.surfdiary.database.LocationQueries
 import com.halebop.web_types.LatLng
 import com.halebop.web_types.Location

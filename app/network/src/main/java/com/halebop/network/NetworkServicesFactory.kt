@@ -1,13 +1,18 @@
 package com.halebop.network
 
-import com.dropbox.android.external.store4.*
+import com.dropbox.android.external.store4.Fetcher
+import com.dropbox.android.external.store4.FetcherResult
+import com.dropbox.android.external.store4.SourceOfTruth
+import com.dropbox.android.external.store4.Store
+import com.dropbox.android.external.store4.StoreBuilder
 import com.google.gson.Gson
-import com.halebop.network.noaaservice.*
+import com.halebop.network.noaaservice.HttpClientResponse
+import com.halebop.network.noaaservice.NOAAReportResponse
 import com.halebop.network.noaaservice.NOAAService
-import com.halebop.surfdiary.NOAADataSource
 import com.halebop.network.noaaservice.NOAAService.Factory.Companion.TESTING_KEY
 import com.halebop.network.noaaservice.NOAAStationResponse
 import com.halebop.network.noaaservice.NOAAStationsResponse
+import com.halebop.surfdiary.NOAADataSource
 import com.halebop.web_types.Measurement
 import com.halebop.web_types.Report
 import com.halebop.web_types.Station
