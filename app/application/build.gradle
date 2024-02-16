@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.halebop.surfdiary"
-        minSdkVersion 21
+        minSdkVersion 24
         compileSdk = 34
         targetSdkVersion 34
         versionCode 1
