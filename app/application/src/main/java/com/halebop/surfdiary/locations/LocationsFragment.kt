@@ -84,7 +84,7 @@ fun LocationListScreen(appState: SurfDiaryAppState) {
         fragmentEventHandler = { event ->
             when (event) {
                 is LocationsFragmentFragmentUiEvent.LocationClicked -> {
-                    //TODO
+                    appState.navigateToEntry(event.id)
                 }
             }
         }
