@@ -223,6 +223,10 @@ class LocationEntryViewModel @Inject constructor(
             val location: Station?
         ): EntryUiState()
     }
+
+    private val userLocationFlow = locationUtils.requestLocationUpdates(LocationSensitivity.High)
+        .distinctUntilChanged()
+
     private fun closestLocation(entryLocation: com.halebop.web_types.Location) {
         val location = entryLocation.toAndroidLocation()
         viewModelScope.launch {
