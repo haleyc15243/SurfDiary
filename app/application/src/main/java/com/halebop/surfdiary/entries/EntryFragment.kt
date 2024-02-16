@@ -213,4 +213,10 @@ class LocationEntryViewModel @Inject constructor(
     private val entryLocation = savedStateHandle.get<String>(Destination.LocationDetails.ID_KEY)?.let {
         locationDatasource.selectLocation(it.toLong())
     }
+    sealed class EntryUiState {
+        data object Initial: EntryUiState()
+        data class UiState(
+            val location: Station?
+        ): EntryUiState()
+    }
 }
