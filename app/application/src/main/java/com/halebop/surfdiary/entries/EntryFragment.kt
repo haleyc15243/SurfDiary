@@ -34,6 +34,7 @@ import com.halebop.surfdiary.ui.LabeledValue
 import com.halebop.surfdiary.ui.SurfDiaryAppState
 import com.halebop.surfdiary.ui.SurfDiaryScaffold
 import com.halebop.web_types.Station
+import com.halebop.web_types.toAndroidLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -213,10 +214,35 @@ class LocationEntryViewModel @Inject constructor(
     private val entryLocation = savedStateHandle.get<String>(Destination.LocationDetails.ID_KEY)?.let {
         locationDatasource.selectLocation(it.toLong())
     }
+
+    private val closestLocationFlow = MutableStateFlow<Station?>(null)
+
     sealed class EntryUiState {
         data object Initial: EntryUiState()
         data class UiState(
             val location: Station?
         ): EntryUiState()
+    }
+    private fun closestLocation(entryLocation: com.halebop.web_types.Location) {
+        val location = entryLocation.toAndroidLocation()
+        viewModelScope.launch {
+            noaaDataDataStore.fresh(entryLocation.id).minByOrNull { station ->
+                val stationLocation = Location("").apply {
+                    latitude = station.latitude
+                    longitude = station.longitude
+                }
+                val distance = stationLocation.distanceTo(location)
+                distance
+            }?.let {
+                closestLocationFlow.value = it
+            }
+        }
+    }
+
+    val uiStateFlow = if (entryLocation == null) flowOf(EntryUiState.Initial) else {
+        closestLocation(entryLocation)
+        closestLocationFlow.map {
+            it?.let { EntryUiState.UiState(it) } ?: EntryUiState.Initial
+        }
     }
 }
