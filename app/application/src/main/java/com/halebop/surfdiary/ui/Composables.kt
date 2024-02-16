@@ -192,6 +192,29 @@ fun AppTextEntry(
 }
 
 @Composable
+fun LabeledValue(
+    label: String,
+    labelValue: String
+) {
+    Row(
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.alignByBaseline()
+        )
+        Text(text = ":", modifier = Modifier.alignByBaseline())
+        Spacer(modifier = Modifier.width(5.dp))
+        Text(
+            text = labelValue,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.alignByBaseline()
+        )
+    }
+}
+
+@Composable
 fun AppCardListItem(
     content: @Composable () -> Unit
 ) {
