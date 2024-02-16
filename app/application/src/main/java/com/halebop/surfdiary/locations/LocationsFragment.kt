@@ -8,18 +8,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircleOutline
-import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -133,7 +133,7 @@ private fun LocationsListScreen(
                     } else {
                         IconButton(onClick = { appState.navigateToAddLocation() }) {
                             Icon(
-                                imageVector = Icons.Filled.AddCircleOutline,
+                                imageVector = Icons.Outlined.AddCircle,
                                 contentDescription = "Add Location"
                             )
                         }
@@ -269,7 +269,7 @@ private fun LocationItem(
                 icon = Icons.Filled.LocationOn
             )
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text(location.name, style = MaterialTheme.typography.h6)
+                Text(location.name, style = MaterialTheme.typography.titleMedium)
                 distance?.let { Text(it) }
             }
         }
@@ -292,7 +292,7 @@ private fun EditModeToolbarIcons(
     }
     IconButton(onClick = delete) {
         Icon(
-            imageVector = Icons.Filled.DeleteForever,
+            imageVector = Icons.Filled.Delete,
             contentDescription = "Add Location"
         )
     }
