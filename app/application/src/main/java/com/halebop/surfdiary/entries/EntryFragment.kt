@@ -202,4 +202,15 @@ private fun DiaryEntryListFragmentContentPreview() {
         )
     )
 }
+
+@HiltViewModel
+class LocationEntryViewModel @Inject constructor(
+    locationDatasource: LocationDatasource,
+    savedStateHandle: SavedStateHandle,
+    locationUtils: LocationUtils,
+    private val noaaDataDataStore: Store<Long, List<Station>>
+) : ViewModel() {
+    private val entryLocation = savedStateHandle.get<String>(Destination.LocationDetails.ID_KEY)?.let {
+        locationDatasource.selectLocation(it.toLong())
+    }
 }
