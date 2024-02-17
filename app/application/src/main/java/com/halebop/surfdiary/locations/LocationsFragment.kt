@@ -251,11 +251,6 @@ private fun LocationItem(
                         if (showCheckBox) {
                             setChecked(!checked)
                         } else onClick(location.id)
-                    },
-                    onPress = {
-                        if (showCheckBox) {
-                            setChecked(!checked)
-                        } else onClick(location.id)
                     }
                 )
             }
