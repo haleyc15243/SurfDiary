@@ -10,6 +10,11 @@ data class Location(
     val latLng: LatLng
 )
 
+fun Location.toAndroidLocation() = android.location.Location("").apply {
+    latitude = latLng.lat
+    longitude = latLng.lng
+}
+
 data class Station(
     val id: Long,
     val stationShortName: String?,

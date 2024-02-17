@@ -51,3 +51,36 @@
 #// SQL Delight
 #implementation "com.squareup.sqldelight:android-driver:1.5.3"
 #implementation "com.squareup.sqldelight:coroutines-extensions-jvm:1.5.2"
+[versions]
+agp = "8.2.0"
+dependency-analysis-gradle-plugin = "1.17.0"
+google-services = "4.4.1"
+gradle = "8.2.2"
+gradle-plugin = "1.5.4"
+hilt-android-gradle-plugin = "2.50"
+kotlin = "1.9.21"
+core-ktx = "1.12.0"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+appcompat = "1.6.1"
+material = "1.11.0"
+navigation-safe-args-gradle-plugin = "2.7.7"
+secrets-gradle-plugin = "2.0.1"
+[libraries]
+androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation-safe-args-gradle-plugin" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+dependency-analysis-gradle-plugin = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependency-analysis-gradle-plugin" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gradle-plugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "gradle-plugin" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-android-gradle-plugin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secrets-gradle-plugin" }
+[plugins]
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
