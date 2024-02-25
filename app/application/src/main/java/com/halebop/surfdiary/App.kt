@@ -1,6 +1,8 @@
 package com.halebop.surfdiary
 
 import android.app.Application
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
@@ -12,10 +14,13 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class App: Application() {
+class App: Application(), Configuration.Provider {
 
     @Inject
     lateinit var networkFlipperPlugin: NetworkFlipperPlugin
+
+    @Inject
+    lateinit var hiltWorkerFactory: HiltWorkerFactory
     override fun onCreate() {
         super.onCreate()
         SoLoader.init(this, false)
@@ -27,4 +32,9 @@ class App: Application() {
             client.start()
         }
     }
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(hiltWorkerFactory)
+            .build()
 }
