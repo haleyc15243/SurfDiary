@@ -1,10 +1,10 @@
 package com.halebop.surfdiary
 
 import com.halebop.surfdiary.database.Noaa_stationQueries
-import com.halebop.web_types.Measurement
-import com.halebop.web_types.Report
-import com.halebop.web_types.Station
 import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.halebop.web_types.NOAA.Measurement
+import com.halebop.web_types.NOAA.Report
+import com.halebop.web_types.NOAA.Station
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

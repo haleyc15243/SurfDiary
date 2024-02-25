@@ -38,7 +38,7 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.halebop.surfdiary.ui.theme.SurfDiaryTheme
 import com.halebop.web_types.LatLng
-import com.halebop.web_types.Station
+import com.halebop.web_types.NOAA.Station
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map

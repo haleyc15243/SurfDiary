@@ -13,9 +13,9 @@ import com.halebop.network.noaaservice.NOAAStationResponse
 import com.halebop.network.noaaservice.NOAAStationsResponse
 import com.halebop.network.utility.HttpClientResponse
 import com.halebop.surfdiary.NOAADataSource
-import com.halebop.web_types.Measurement
-import com.halebop.web_types.Report
-import com.halebop.web_types.Station
+import com.halebop.web_types.NOAA.Measurement
+import com.halebop.web_types.NOAA.Report
+import com.halebop.web_types.NOAA.Station
 import okhttp3.Call
 
 class NetworkServicesFactory(

@@ -33,8 +33,7 @@ import com.halebop.surfdiary.ui.ExpandableCard
 import com.halebop.surfdiary.ui.LabeledValue
 import com.halebop.surfdiary.ui.SurfDiaryAppState
 import com.halebop.surfdiary.ui.SurfDiaryScaffold
-import com.halebop.web_types.Station
-import com.halebop.web_types.toAndroidLocation
+import com.halebop.web_types.NOAA.Station
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
