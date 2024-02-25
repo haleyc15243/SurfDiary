@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
-    id 'com.squareup.sqldelight'
+    id 'app.cash.sqldelight'
 }
 
 android {
@@ -38,16 +38,18 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     // SQLDelight
-    implementation 'com.squareup.sqldelight:runtime:1.5.4'
-    implementation 'com.squareup.sqldelight:android-driver:1.5.4'
-    implementation 'com.squareup.sqldelight:coroutines-extensions-jvm:1.5.2'
+    implementation 'app.cash.sqldelight:runtime:2.0.0'
+    implementation 'app.cash.sqldelight:android-driver:2.0.0'
+    implementation 'app.cash.sqldelight:coroutines-extensions-jvm:2.0.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.5.0'
 }
 
 sqldelight {
-    DiaryDatabase {
-        packageName = 'com.halebop.surfdiary'
+    databases {
+        DiaryDatabase {
+            packageName = 'com.halebop.surfdiary'
+        }
     }
 }

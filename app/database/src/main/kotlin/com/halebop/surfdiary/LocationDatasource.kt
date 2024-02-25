@@ -1,9 +1,9 @@
 package com.halebop.surfdiary
 
+import app.cash.sqldelight.coroutines.asFlow
 import com.halebop.surfdiary.database.LocationQueries
 import com.halebop.web_types.LatLng
 import com.halebop.web_types.Location
-import com.squareup.sqldelight.runtime.coroutines.asFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

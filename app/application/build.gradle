@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'com.google.dagger.hilt.android'
     id 'kotlinx-serialization'
-    id 'com.squareup.sqldelight'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
@@ -116,7 +115,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
 
     // SQL Delight
-    implementation "com.squareup.sqldelight:android-driver:1.5.4"
+    implementation 'app.cash.sqldelight:android-driver:2.0.0'
 
     //Flipper
     debugImplementation 'com.facebook.flipper:flipper:0.240.0'

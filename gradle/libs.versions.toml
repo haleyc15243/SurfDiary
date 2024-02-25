@@ -56,7 +56,7 @@ agp = "8.2.0"
 dependency-analysis-gradle-plugin = "1.17.0"
 google-services = "4.4.1"
 gradle = "8.2.2"
-gradle-plugin = "1.5.4"
+gradle-plugin = "2.0.0"
 hilt-android-gradle-plugin = "2.50"
 kotlin = "1.9.21"
 core-ktx = "1.12.0"
@@ -74,7 +74,7 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx
 dependency-analysis-gradle-plugin = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependency-analysis-gradle-plugin" }
 google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
-gradle-plugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "gradle-plugin" }
+gradle-plugin = { module = "app.cash.sqldelight:gradle-plugin", version.ref = "gradle-plugin" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-android-gradle-plugin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }

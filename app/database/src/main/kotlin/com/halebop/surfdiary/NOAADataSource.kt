@@ -1,7 +1,7 @@
 package com.halebop.surfdiary
 
+import app.cash.sqldelight.coroutines.asFlow
 import com.halebop.surfdiary.database.Noaa_stationQueries
-import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.halebop.web_types.NOAA.Measurement
 import com.halebop.web_types.NOAA.Report
 import com.halebop.web_types.NOAA.Station
