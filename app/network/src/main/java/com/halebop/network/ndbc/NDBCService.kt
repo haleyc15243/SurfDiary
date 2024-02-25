@@ -57,5 +57,135 @@ internal class NDBCService private constructor(
             .host(HOST)
             .build()
     }
+
+    suspend fun getActiveStations(): HttpClientResponse<NDBCActiveStationsResponse> = httpClientResponse {
+        retrofit.activeStations()
+    }
+}
+
+@Serializable
+@XmlSerialName("stations")
+data class NDBCActiveStationsResponse @JvmOverloads constructor(
+    @XmlElement(true)
+    @XmlSerialName("station")
+    val stations: List<NDBCActiveStationResponse> = emptyList(),
+    @XmlElement(false)
+    @XmlSerialName("created")
+    @Serializable(with = NDBCInstantSerializer::class)
+    val created: Instant,
+    @XmlElement(false)
+    @XmlSerialName("count")
+    val count: Int
+)
+
+@Serializable
+@XmlElement(true)
+@XmlSerialName("station")
+data class NDBCActiveStationResponse(
+    @XmlElement(false)
+    @XmlSerialName("id")
+    val id: Id,
+    @XmlElement(false)
+    @XmlSerialName("lat")
+    val lat: Double,
+    @XmlElement(false)
+    @XmlSerialName("lon")
+    val lon: Double,
+    @XmlElement(false)
+    @XmlSerialName("elev")
+    val elev: Double?,
+    @XmlElement(false)
+    @XmlSerialName("name")
+    val name: String,
+    @XmlElement(false)
+    @XmlSerialName("owner")
+    val owner: Owner,
+    // Program to which the station belongs
+    @XmlElement(false)
+    @XmlSerialName("pgm")
+    val pgm: Program,
+    @XmlElement(false)
+    @XmlSerialName("type")
+    val type: Type,
+    @XmlElement(false)
+    @XmlSerialName("seq") // TODO how does this work? (https://tao.ndbc.noaa.gov/tao/data_download/search_map.shtml)
+    val seq: String? = null,
+    // indicates whether the station has reported meteorological data in the past eight hours
+    @XmlElement(false)
+    @XmlSerialName("met")
+    val met: Boolean = false,
+    // indicates whether the station has reported water current data in the past eight hours
+    @XmlElement(false)
+    @XmlSerialName("currents")
+    val currents: Boolean = false,
+    // indicates whether the station has reported ocean chemistry data in the past eight hours
+    @XmlElement(false)
+    @XmlSerialName("waterquality")
+    val waterQuality: Boolean = false,
+    //  indicates whether the station has reported water column height/tsunami data in the past 24 hours
+    @XmlElement(false)
+    @XmlSerialName("dart")
+    val dart: Boolean = false
+) {
+    fun toAppStation() = NDBC.Station(
+        NDBC.Id(id.value),
+        LatLng(lat, lon),
+        elev?.let { NDBC.Elevation(it) },
+        name,
+        NDBC.Owner(owner.value),
+        NDBC.Program(pgm.value),
+        NDBC.Type.valueOf(type.name),
+        seq,
+        met,
+        currents,
+        waterQuality,
+        dart
+    )
+}
+
+@Serializable
+enum class Type {
+    @SerialName("fixed")
+    FIXED,
+    @SerialName("buoy")
+    BUOY,
+    @SerialName("dart")
+    DART,
+    @SerialName("oilrig")
+    OIL_RIG,
+    @SerialName("usv")
+    USV,
+    @SerialName("tao")
+    TAO,
+    @SerialName("other")
+    OTHER
+}
+
+@Serializable
+@JvmInline
+value class Id(val value: String)
+
+@Serializable
+@JvmInline
+value class Program(val value: String)
+
+@Serializable
+@JvmInline
+value class Owner(val value: String)
+
+object NDBCInstantSerializer : KSerializer<Instant> {
+
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): Instant =
+        decoder.decodeString().replace("UTC", "Z").let {
+            return Instant.parse(it)
+        }
+
+    override fun serialize(encoder: Encoder, value: Instant) {
+        encoder.encodeString(value.toString())
+    }
+
 }
 
