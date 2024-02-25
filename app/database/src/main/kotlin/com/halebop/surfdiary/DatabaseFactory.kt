@@ -16,7 +16,7 @@ class DatabaseFactory(
     )
 
     private val ndbcLastUpdateAdapter = Ndbc_last_update.Adapter(
-        lastUpdatedAdapter
+        kotlinxInstantAdapter
     )
 
     private val ndbcStationAdapter = Ndbc_station.Adapter(
