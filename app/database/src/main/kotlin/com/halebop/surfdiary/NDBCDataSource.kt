@@ -7,6 +7,7 @@ import kotlinx.datetime.Instant
 
 interface NDBCDataSource {
     fun updateLastUpdate(lastUpdate: Instant)
+    fun getLastUpdated(): Instant?
     fun getActiveStations(): Flow<List<NDBC.Station>>
     fun insertStation(station: NDBC.Station)
 }
@@ -18,6 +19,11 @@ class NDBCDataSourceImpl(
     override fun updateLastUpdate(lastUpdate: Instant) {
         stationQueries.clearLastUpdated()
         stationQueries.updateLastUpdated(lastUpdate)
+    }
+
+    override fun getLastUpdated(): Instant? {
+        return stationQueries.fetchLastUpdated().executeAsOneOrNull()
+            ?.last_updated
     }
     override fun getActiveStations(): Flow<List<NDBC.Station>> {
         TODO("Not yet implemented")

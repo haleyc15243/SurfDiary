@@ -17,7 +17,7 @@ REPLACE INTO ndbc_last_update(
     :lastUpdate
 );
 
-fetch:
+fetchLastUpdated:
 SELECT last_updated
 FROM ndbc_last_update;
 

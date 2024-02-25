@@ -21,9 +21,12 @@ class NDBCActiveStationsWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val stationsResponse = networkServicesFactory.ndbcActiveStations() ?: return Result.failure()
-        dataSource.updateLastUpdate(stationsResponse.created)
-        for (station in stationsResponse.stations) {
-            dataSource.insertStation(station.toAppStation())
+        val lastUpdated = dataSource.getLastUpdated()
+        if (lastUpdated == null || stationsResponse.created < lastUpdated) {
+            dataSource.updateLastUpdate(stationsResponse.created)
+            for (station in stationsResponse.stations) {
+                dataSource.insertStation(station.toAppStation())
+            }
         }
         return Result.success()
     }
