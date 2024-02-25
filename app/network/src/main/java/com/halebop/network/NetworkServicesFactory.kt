@@ -6,6 +6,7 @@ import com.dropbox.android.external.store4.SourceOfTruth
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
 import com.google.gson.Gson
+import com.halebop.network.ndbc.NDBCService
 import com.halebop.network.noaaservice.NOAAReportResponse
 import com.halebop.network.noaaservice.NOAAService
 import com.halebop.network.noaaservice.NOAAService.Factory.Companion.TESTING_KEY
@@ -24,6 +25,12 @@ class NetworkServicesFactory(
 ) {
 
     private val noaaService = NOAAService.Factory(callFactory, gson).create()
+    private val ndbcService = NDBCService.Factory(callFactory).create()
+
+    suspend fun ndbcActiveStations() = when (val response = ndbcService.getActiveStations()) {
+        is HttpClientResponse.Success -> response.data
+        else -> null
+    }
 
     fun noaaStationsStore(
         dataStore: NOAADataSource
