@@ -1,0 +1,86 @@
+import com.halebop.web_types.NDBC.Elevation;
+import com.halebop.web_types.NDBC.Id;
+import com.halebop.web_types.NDBC.Owner;
+import com.halebop.web_types.NDBC.Program;
+import com.halebop.web_types.NDBC.Type;
+import kotlin.Boolean;
+import kotlinx.datetime.Instant;
+
+CREATE TABLE ndbc_last_update(
+    last_updated TEXT AS Instant
+);
+
+updateListUpdated:
+REPLACE INTO ndbc_last_update(
+    last_updated
+) VALUES (
+    :lastUpdate
+);
+
+fetch:
+SELECT last_updated
+FROM ndbc_last_update;
+
+delete:
+DELETE FROM ndbc_last_update;
+
+CREATE TABLE ndbc_station(
+    id TEXT AS Id NOT NULL PRIMARY KEY,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    elevation REAL AS Elevation,
+    name TEXT NOT NULL,
+    owner TEXT AS Owner NOT NULL,
+    program TEXT AS Program NOT NULL,
+    type TEXT AS Type,
+    seq TEXT,
+    has_met INTEGER AS Boolean NOT NULL DEFAULT 0,
+    has_currents INTEGER AS Boolean NOT NULL DEFAULT 0,
+    has_water_quality INTEGER AS Boolean NOT NULL DEFAULT 0,
+    has_dart INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+insertOrUpdateStation:
+INSERT OR REPLACE INTO ndbc_station (
+    id,
+    latitude,
+    longitude,
+    elevation,
+    name,
+    owner,
+    program,
+    type,
+    seq,
+    has_met,
+    has_currents,
+    has_water_quality,
+    has_dart
+) VALUES (
+    :id,
+    :latitude,
+    :longitude,
+    :elevation,
+    :name,
+    :owner,
+    :program,
+    :type,
+    :seq,
+    :hasMet,
+    :hasCurrents,
+    :hasWaterQuality,
+    :hasDart
+);
+
+deleteStation:
+DELETE FROM ndbc_station
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM ndbc_station;
+
+selectStation:
+SELECT * FROM ndbc_station
+WHERE id = :id;
+
+selectAll:
+SELECT * FROM ndbc_station;
