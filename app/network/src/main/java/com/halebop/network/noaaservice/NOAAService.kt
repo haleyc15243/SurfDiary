@@ -1,6 +1,8 @@
 package com.halebop.network.noaaservice
 
 import com.google.gson.Gson
+import com.halebop.network.utility.HttpClientResponse
+import com.halebop.network.utility.httpClientResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import okhttp3.Call
@@ -13,35 +15,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.logging.Logger
 import kotlin.text.Charsets.UTF_8
-
-// TODO move
-
-sealed class HttpClientResponse<out T> {
-    data class Success<T>(val data: T): HttpClientResponse<T>()
-    data class Exception(val e: Throwable): HttpClientResponse<Nothing>()
-    data class Error(
-        val code: Int,
-        val errorBody: String?,
-        val requestTraceId: RequestTraceId? = null
-    ) : HttpClientResponse<Nothing>()
-    @JvmInline
-    value class RequestTraceId(val value: String)
-}
-
-private fun <T> Response<T>.toError(): HttpClientResponse.Error {
-    return HttpClientResponse.Error(
-        code = code(),
-        errorBody = errorBody()?.source()?.readString(UTF_8),
-        requestTraceId = headers()["Request-Trace-Id"]?.let { HttpClientResponse.RequestTraceId(it) }
-    )
-}
-
-internal inline fun <T> httpClientResponse(body: () -> Response<T>): HttpClientResponse<T> = runCatching(body).map {
-    when {
-        it.isSuccessful -> HttpClientResponse.Success(it.body()!!)
-        else -> it.toError()
-    }
-}.getOrElse { HttpClientResponse.Exception(it) }
 
 internal class NOAAService private constructor(
     private val retrofit: NOAAServiceRetrofit,
