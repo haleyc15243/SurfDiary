@@ -7,9 +7,10 @@ import com.halebop.location_services.LocationUtils
 import com.halebop.network.NetworkServicesFactory
 import com.halebop.surfdiary.DiaryDatabase
 import com.halebop.surfdiary.LocationDatasource
-import com.halebop.surfdiary.LocationDatasourceImpl
 import com.halebop.surfdiary.NOAADataSource
-import com.halebop.surfdiary.NOAADataSourceImpl
+import com.halebop.web_types.NOAA.Station
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.halebop.surfdiary.DatabaseFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,19 +34,21 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideDatabaseFactory(
+        driver: AndroidSqliteDriver
+    ) = DatabaseFactory(driver)
+
+    @Provides
+    @Singleton
     fun provideNOAADataSource(
-        sqlDriver: AndroidSqliteDriver
-    ): NOAADataSource {
-        return NOAADataSourceImpl(DiaryDatabase.invoke(sqlDriver).noaa_stationQueries)
-    }
+        factory: DatabaseFactory
+    ): NOAADataSource = factory.noaaDataSource()
 
     @Provides
     @Singleton
     fun provideLocationDatasource(
-        sqlDriver: AndroidSqliteDriver
-    ): LocationDatasource {
-        return LocationDatasourceImpl(DiaryDatabase.invoke(sqlDriver).locationQueries)
-    }
+        factory: DatabaseFactory
+    ): LocationDatasource = factory.locationDataSource()
 
     @Provides
     @Singleton
