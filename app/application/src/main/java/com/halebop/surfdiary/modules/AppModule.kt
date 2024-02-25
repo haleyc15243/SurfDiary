@@ -11,6 +11,7 @@ import com.halebop.surfdiary.NOAADataSource
 import com.halebop.web_types.NOAA.Station
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.halebop.surfdiary.DatabaseFactory
+import com.halebop.surfdiary.NDBCDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,6 +44,12 @@ class AppModule {
     fun provideNOAADataSource(
         factory: DatabaseFactory
     ): NOAADataSource = factory.noaaDataSource()
+
+    @Provides
+    @Singleton
+    fun provideNDBCDataSource(
+        factory: DatabaseFactory
+    ): NDBCDataSource = factory.ndbcDataSource()
 
     @Provides
     @Singleton
