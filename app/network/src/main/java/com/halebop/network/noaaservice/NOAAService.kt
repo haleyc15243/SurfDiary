@@ -47,7 +47,7 @@ internal class NOAAService private constructor(
         }
 
         fun create(): NOAAService {
-            val retrofit =  Retrofit.Builder()
+            val retrofit = Retrofit.Builder()
                 .baseUrl(createBaseUrl())
                 .callFactory(callFactory)
                 .addConverterFactory(GsonConverterFactory.create(gson))

@@ -53,6 +53,7 @@ class AppModule {
         factory: NetworkServicesFactory,
         dataStore: NOAADataSource
     ): Store<Long, List<Station>> = factory.noaaStationsStore(dataStore)
+
     @Provides
     @Singleton
     fun provideLocationUtils(
