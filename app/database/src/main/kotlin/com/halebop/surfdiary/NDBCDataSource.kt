@@ -16,7 +16,8 @@ class NDBCDataSourceImpl(
 ) : NDBCDataSource {
 
     override fun updateLastUpdate(lastUpdate: Instant) {
-        stationQueries.updateListUpdated(lastUpdate)
+        stationQueries.clearLastUpdated()
+        stationQueries.updateLastUpdated(lastUpdate)
     }
     override fun getActiveStations(): Flow<List<NDBC.Station>> {
         TODO("Not yet implemented")

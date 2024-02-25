@@ -10,7 +10,7 @@ CREATE TABLE ndbc_last_update(
     last_updated TEXT AS Instant
 );
 
-updateListUpdated:
+updateLastUpdated:
 REPLACE INTO ndbc_last_update(
     last_updated
 ) VALUES (
@@ -21,7 +21,7 @@ fetch:
 SELECT last_updated
 FROM ndbc_last_update;
 
-delete:
+clearLastUpdated:
 DELETE FROM ndbc_last_update;
 
 CREATE TABLE ndbc_station(
